@@ -20,7 +20,7 @@ See the blinky example below for specific instructions.
 
 ## Bootloader
 
-The MMOD can be programmed over the USB-C port with a USB DFU bootloader. You can use this to write custom gateware and other data to the MMOD. There is a fork of the [Nitro Bootloader](https://github.com/machdyne/no2bootloader) that works with Brot. To build it:
+The MMOD can be programmed over the USB-C port with a USB DFU bootloader. You can use the bootloader to write custom gateware and other data to the MMOD. There is a fork of the [Nitro Bootloader](https://github.com/machdyne/no2bootloader) that works with Brot. To build it:
 
 ```
 $ git clone https://github.com/machdyne/no2bootloader
@@ -28,13 +28,13 @@ $ cd no2bootloader/gateware/ice40-stub
 $ make BOARD=brot bootloader
 ```
 
-Then program the MMOD (using a [Werkzeug](https://machdyne.com/product/werkzeug-multi-tool) in this example):
+Then write the bootloader to the MMOD (using a [Werkzeug](https://machdyne.com/product/werkzeug-multi-tool) in this example):
 
 ```
 $ ldprog -wf build-tmp/bootloader.bin
 ```
 
-The bootlooader will stay active for about 8 seconds after power is applied, giving you time to upload custom gateware. See an example for blinky below.
+The bootlooader will stay active for about 8 seconds after power is applied, giving you time to update your custom gateware. See an example for blinky below.
 
 ## Blinky 
 
@@ -54,7 +54,7 @@ This will write the blinky after the bootloader on the MMOD. When you reboot the
 
 Connect the MMOD socket to the appropriate pins of an ldprog-supported device.
 
-You will need to use the manual reset option (-m) with ldprog and press the Brot reset button when prompted to do so. Alternatively, you can solder a 2-pin header to the unpopulated header to automate this step.
+You will need to use the manual reset option (-m) with ldprog and press the Brot reset button when prompted to do so. Alternatively, you can solder a 2-pin header to the unpopulated header and connect it to the programmer device to automate this step.
 
 ```
 $ ldprog -m -s output/blinky.bin
