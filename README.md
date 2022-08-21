@@ -23,7 +23,7 @@ See the blinky example below for specific instructions.
 The MMOD can be programmed over the USB-C port with a USB DFU bootloader. You can use the bootloader to write custom gateware and other data to the MMOD. There is a fork of the [Nitro Bootloader](https://github.com/machdyne/no2bootloader) that works with Brot. To build it:
 
 ```
-$ git clone https://github.com/machdyne/no2bootloader
+$ git clone --recursive https://github.com/machdyne/no2bootloader
 $ cd no2bootloader/gateware/ice40-stub
 $ make BOARD=brot bootloader
 ```
