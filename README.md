@@ -12,21 +12,43 @@ Find more information on the [Brot product page](https://machdyne.com/product/br
 
 There are three ways to program Brot:
 
-1. Using a USB or UART bootloader programmed to the MMOD flash module. (see below)
-2. Remove the MMOD flash module, connect the Brot MMOD socket to a device supported by [ldprog](https://github.com/machdyne/ldprog) and program the configuration SRAM. This is useful for development. 
-3. Remove the MMOD flash module and program it with a GPIO or SPI-capable device. This is useful when you want the gateware to persist without power.
+1. Use a USB DFU bootloader to write to the [MMOD](https://github.com/machdyne/mmod) flash module. (see below)
+2. Remove the MMOD flash module, connect the Brot MMOD socket to a device supported by [ldprog](https://github.com/machdyne/ldprog) and program the configuration SRAM.
+3. Remove the MMOD flash module and program it with a GPIO or SPI-capable device.
 
 See the blinky example below for specific instructions.
 
 ## Bootloader
 
-It should be possible to use a USB or UART bootloader in order to update the gateware. Additional details and instructions will be added here as soon as there is an officially supported bootloader available for Brot.
+The MMOD can be programmed over the USB-C port with a USB DFU bootloader. You can use this to write custom gateware and other data to the MMOD. There is a fork of the [Nitro Bootloader](https://github.com/machdyne/no2bootloader) that works with Brot. To build it:
+
+```
+$ git clone https://github.com/machdyne/no2bootloader
+$ cd no2bootloader/gateware/ice40-stub
+$ make BOARD=brot bootloader
+```
+
+Then program the MMOD (using a [Werkzeug](https://machdyne.com/product/werkzeug-multi-tool) in this example):
+
+```
+$ ldprog -wf build-tmp/bootloader.bin
+```
+
+The bootlooader will stay active for about 8 seconds after power is applied, giving you time to upload custom gateware. See an example for blinky below.
 
 ## Blinky 
 
 Building the blinky example requires [Yosys](https://github.com/YosysHQ/yosys), [nextpnr-ice40](https://github.com/YosysHQ/nextpnr) and [IceStorm](https://github.com/YosysHQ/icestorm).
 
 Assuming they are installed, you can simply type `make` to build the gateware, which will be written to output/blinky.bin. You can then use [ldprog](https://github.com/machdyne/ldprog) to write the gateware to the device.
+
+### Writing blinky to the MMOD using the USB DFU bootloader
+
+```
+$ dfu-util -a 0 -D output/blinky.bin
+```
+
+This will write the blinky after the bootloader on the MMOD. When you reboot the device the DFU gateware start again and about 8 seconds later blinky will start.
 
 ### Writing blinky to SRAM
 
@@ -70,7 +92,7 @@ $ ldprog -wf output/blinky.bin
 ## MMOD Socket
 
 The MMOD socket can be used to program the FPGA SRAM or can be populated with
-an MMOD containing a bitstream.
+an MMOD containing a single bitstream or a multiboot image.
 
 | Pin | Signal |
 | --- | ------ |
