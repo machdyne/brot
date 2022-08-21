@@ -2,6 +2,8 @@
 
 Brot is an FPGA development board designed to be plugged into a solderless breadboard.
 
+![Brot FPGA Board](https://github.com/machdyne/brot/blob/d107d33e1bf2bb14a4ca1030c8687df5ce17a049/brot.png)
+
 This repo contains schematics, pinouts and example gateware.
 
 Find more information on the [Brot product page](https://machdyne.com/product/brot-fpga-board/).
