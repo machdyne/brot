@@ -3,9 +3,9 @@
 
 set_io CLK_48	35
 
-set_io LED_R	39
+set_io LED_R	41
 set_io LED_G	40
-set_io LED_B	41
+set_io LED_B	39
 
 # GPIO
 set_io GPIO0		18
